@@ -55,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           attribute="class"
           defaultTheme="system"
           enableSystem
+          storageKey="theme"
           disableTransitionOnChange
         >
           {children}
