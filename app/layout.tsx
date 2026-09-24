@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -41,6 +41,13 @@ export const metadata: Metadata = {
     title: "Med Amine Chniti — Software Engineer",
     description,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f3fcff" },
+    { media: "(prefers-color-scheme: dark)", color: "#010810" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

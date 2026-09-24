@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { cn } from "cn";
 import type { Project } from "@/lib/projects";
+import { TechIcon } from "@/components/TechIcon";
 
 function ProjectPreview({
   project,
@@ -162,7 +163,7 @@ function ProjectVisual({
     <div className="flex h-full min-h-72 flex-col overflow-hidden bg-linear-to-br from-chart-3/18 via-card to-chart-4/18 p-6 text-foreground sm:p-8">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-mono text-xs tracking-[0.18em] text-chart-3 uppercase">
+          <p className="font-mono text-xs tracking-[0.18em] text-accent-foreground uppercase">
             Resource map
           </p>
           <p className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -291,8 +292,9 @@ export function FeaturedProject({
           {project.technologies.map((technology) => (
             <li
               key={technology}
-              className="rounded-full border border-border bg-muted/60 px-2.5 py-1 font-mono text-[0.7rem] text-muted-foreground"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-2.5 py-1 font-mono text-[0.7rem] text-muted-foreground"
             >
+              <TechIcon technology={technology} />
               {technology}
             </li>
           ))}
@@ -342,8 +344,9 @@ export function SupportingProject({
           {project.technologies.slice(0, 4).map((technology) => (
             <li
               key={technology}
-              className="rounded-full bg-muted px-2 py-1 font-mono text-[0.65rem] text-muted-foreground"
+              className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2 py-1 font-mono text-[0.65rem] text-muted-foreground"
             >
+              <TechIcon technology={technology} />
               {technology}
             </li>
           ))}

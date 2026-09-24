@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { FeaturedProject, SupportingProject } from "@/components/ProjectCard";
+import { TechIcon } from "@/components/TechIcon";
 import { contributions } from "@/lib/contributions";
 import { getMicrolinkScreenshot } from "@/lib/microlink";
 import { featuredProjects, supportingProjects } from "@/lib/projects";
@@ -138,7 +139,11 @@ export default async function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <SiteHeader />
-      <main id="main-content" className="flex-1">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 focus:outline-none"
+      >
         <section className="relative overflow-hidden border-b border-border">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,color-mix(in_oklch,var(--chart-4)_22%,transparent),transparent_30%),radial-gradient(circle_at_16%_74%,color-mix(in_oklch,var(--chart-3)_17%,transparent),transparent_28%),radial-gradient(circle_at_54%_4%,color-mix(in_oklch,var(--chart-2)_13%,transparent),transparent_24%)]" />
           <div className="absolute inset-0 opacity-40 bg-[linear-gradient(color-mix(in_oklch,var(--border)_55%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklch,var(--border)_55%,transparent)_1px,transparent_1px)] bg-size-[64px_64px] mask-[linear-gradient(to_bottom,var(--foreground),transparent_88%)]" />
@@ -357,7 +362,8 @@ export default async function Home() {
                   className="group flex min-h-40 flex-col rounded-xl border border-border bg-background p-5 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-chart-3/35 hover:shadow-lg hover:shadow-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring motion-reduce:transform-none motion-reduce:transition-none"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="rounded-full bg-secondary px-2.5 py-1 font-mono text-[0.65rem] text-secondary-foreground">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 font-mono text-[0.65rem] text-secondary-foreground">
+                      <TechIcon technology={repository.language ?? ""} />
                       {repository.language || "Repository"}
                     </span>
                     <ArrowUpRight
@@ -478,7 +484,10 @@ export default async function Home() {
                     {githubStats.languages.map((language) => (
                       <div key={language.name}>
                         <div className="flex items-center justify-between text-sm">
-                          <span className="font-medium">{language.name}</span>
+                          <span className="inline-flex items-center gap-1.5 font-medium">
+                            <TechIcon technology={language.name} />
+                            {language.name}
+                          </span>
                           <span className="font-mono text-xs text-muted-foreground">
                             {language.percentage}%
                           </span>
@@ -516,8 +525,9 @@ export default async function Home() {
                       {group.items.map((item) => (
                         <li
                           key={item}
-                          className="rounded-md border border-border bg-muted/55 px-2 py-1 font-mono text-[0.66rem] text-muted-foreground"
+                          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/55 px-2 py-1 font-mono text-[0.66rem] text-muted-foreground"
                         >
+                          <TechIcon technology={item} />
                           {item}
                         </li>
                       ))}
@@ -537,6 +547,7 @@ export default async function Home() {
                     key={technology}
                     className="inline-flex items-center gap-2 rounded-lg border border-border bg-muted/55 px-2.5 py-1.5 text-xs"
                   >
+                    <TechIcon technology={technology} />
                     <span>{technology}</span>
                     <span className="font-mono text-[0.62rem] text-accent-foreground">
                       {count}
@@ -610,7 +621,7 @@ export default async function Home() {
                 href="/"
                 className="inline-flex w-fit rounded text-base font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               >
-                mAmineChniti<span className="text-chart-3">.dev</span>
+                mAmineChniti<span className="text-primary">.dev</span>
               </Link>
               <p className="mt-4 max-w-xs text-sm leading-6 text-muted-foreground">
                 Backend services, web applications, and developer tools built in

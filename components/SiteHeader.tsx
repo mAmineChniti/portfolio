@@ -16,7 +16,7 @@ export function SiteHeader() {
     <>
       <a
         href="#main-content"
-        className="fixed top-3 left-3 z-100 -translate-y-20 rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform focus:translate-y-0"
+        className="fixed top-3 left-3 z-100 -translate-y-20 rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform focus:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
         Skip to content
       </a>
@@ -30,7 +30,7 @@ export function SiteHeader() {
             className="rounded text-base font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
             aria-label="Med Amine Chniti, home"
           >
-            mAmineChniti<span className="text-chart-4">.dev</span>
+            mAmineChniti<span className="text-primary">.dev</span>
           </Link>
           <div className="hidden items-center gap-6 md:flex">
             {links.map((link) => (
