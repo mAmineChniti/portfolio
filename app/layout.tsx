@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import {
+  getStructuredData,
+  serializeStructuredData,
+} from "@/lib/structured-data";
+import { author, site, siteKeywords } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,51 +18,83 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://maminechniti.dev";
-const description =
-  "Med Amine Chniti builds backend systems, web applications, and developer tools with TypeScript, Python, Go, Rust, React, and Next.js.";
+const description = site.description;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Med Amine Chniti — Software Engineer",
+  metadataBase: new URL(site.url),
+  title: {
+    default: site.title,
+    template: `%s | ${author.name}`,
+  },
   description,
+  applicationName: site.name,
+  authors: [{ name: author.name, url: author.github }],
+  creator: author.name,
+  publisher: site.name,
+  category: site.category,
+  keywords: [...siteKeywords],
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+  },
   alternates: {
     canonical: "/",
+    languages: {
+      [site.language]: "/",
+      "x-default": "/",
+    },
   },
-  authors: [
-    { name: "Med Amine Chniti", url: "https://github.com/mAmineChniti" },
-  ],
-  creator: "Med Amine Chniti",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: siteUrl,
-    siteName: "Med Amine Chniti",
-    title: "Med Amine Chniti — Software Engineer",
+    locale: site.locale,
+    url: site.url,
+    siteName: site.name,
+    title: site.title,
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Med Amine Chniti — Software Engineer",
+    title: site.title,
     description,
   },
 };
 
 export const viewport: Viewport = {
+  colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f3fcff" },
-    { media: "(prefers-color-scheme: dark)", color: "#010810" },
+    { media: "(prefers-color-scheme: light)", color: site.themeColor.light },
+    { media: "(prefers-color-scheme: dark)", color: site.themeColor.dark },
   ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang={site.language}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full bg-background text-foreground antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeStructuredData(getStructuredData()),
+          }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

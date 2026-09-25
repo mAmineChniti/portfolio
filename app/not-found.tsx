@@ -4,12 +4,11 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Page not found — Med Amine Chniti",
+  title: "Page not found",
   description:
     "The page you are looking for does not exist. Head back home or explore the selected work.",
   robots: {
     index: false,
-    follow: false,
   },
 };
 
