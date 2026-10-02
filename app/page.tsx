@@ -361,13 +361,26 @@ export default async function Home() {
                   rel="noopener noreferrer"
                   className="group flex min-h-40 flex-col rounded-xl border border-border bg-background p-5 transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-chart-3/35 hover:shadow-lg hover:shadow-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring motion-reduce:transform-none motion-reduce:transition-none"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 font-mono text-[0.65rem] text-secondary-foreground">
-                      <TechIcon technology={repository.language ?? ""} />
-                      {repository.language || "Repository"}
-                    </span>
+                  <div className="flex items-start justify-between gap-3">
+                    <ul
+                      className="flex flex-wrap gap-1.5"
+                      aria-label={`${repository.name} tech stack`}
+                    >
+                      {(repository.technologies.length > 0
+                        ? repository.technologies.slice(0, 4)
+                        : [repository.language || "Repository"]
+                      ).map((technology) => (
+                        <li
+                          key={technology}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 font-mono text-[0.65rem] text-secondary-foreground"
+                        >
+                          <TechIcon technology={technology} />
+                          {technology}
+                        </li>
+                      ))}
+                    </ul>
                     <ArrowUpRight
-                      className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-foreground motion-reduce:transition-none"
+                      className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-foreground motion-reduce:transition-none"
                       aria-hidden="true"
                     />
                   </div>

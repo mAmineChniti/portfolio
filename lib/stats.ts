@@ -4,7 +4,7 @@ import { contributions } from "@/lib/contributions";
 import { featuredProjects, supportingProjects } from "@/lib/projects";
 
 const githubUsername = "mAmineChniti";
-const fallbackRepositoryCount = 13;
+const fallbackRepositoryCount = 15;
 const excludedRepositoryNames = new Set([
   "workshop2-react",
   "workshop-react",
@@ -13,6 +13,10 @@ const excludedRepositoryNames = new Set([
 ]);
 
 const repositoryDescriptions: Record<string, string> = {
+  NutriTrace:
+    "A Laravel farm-to-plate food traceability platform following products from producer to consumer, with environmental footprint and certifications.",
+  portfolio:
+    "Personal engineering portfolio built with Next.js, React, and TypeScript, with live GitHub statistics and project case studies.",
   GB4ME:
     "A C++23 Game Boy/DMG emulator using SDL3 and Vulkan, with ROM browsing, headless test tooling, and cartridge support.",
   "talentia-web":
@@ -40,6 +44,43 @@ const repositoryDescriptions: Record<string, string> = {
   "Gordian-API":
     "A compact FastAPI/MongoDB service providing basic username/password registration and login, bcrypt password hashing, and a status endpoint.",
 };
+
+const repositoryTechnologies: Record<string, string[]> = {
+  NutriTrace: ["Laravel", "PHP", "MariaDB", "Tailwind CSS", "Alpine.js"],
+  portfolio: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+  GB4ME: ["C++", "SDL", "Vulkan", "CMake"],
+  "talentia-web": ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+  hardware_store: ["Spring Boot", "Java", "Docker"],
+  "accountia-web": ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+  "accountia-api": ["NestJS", "TypeScript", "MongoDB", "Redis"],
+  "accountia-ai": ["FastAPI", "Python", "Docker"],
+  sticks: ["Rust", "C++", "CMake", "Make"],
+  Gordian: ["Go", "Echo", "MongoDB", "Docker"],
+  "paginated-table": ["Next.js", "TypeScript", "TanStack Table"],
+  IConsole: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+  "random-quote-generator": ["React", "Vite", "TypeScript", "TanStack Query"],
+  "markdown-preview": ["React", "Vite", "TypeScript"],
+  "Gordian-API": ["FastAPI", "Python", "MongoDB"],
+};
+
+export function getRepositoryTechnologies(
+  name: string,
+  language?: string,
+): string[] {
+  const technologies = repositoryTechnologies[name];
+  if (technologies) {
+    return technologies;
+  }
+
+  const fallbackKey = Object.keys(repositoryTechnologies).find(
+    (key) => key.toLowerCase() === name.toLowerCase(),
+  );
+  if (fallbackKey) {
+    return repositoryTechnologies[fallbackKey];
+  }
+
+  return language ? [language] : [];
+}
 const apiClient = ky.create({
   retry: 2,
   timeout: 15_000,
@@ -75,6 +116,7 @@ export type RepositorySummary = {
   name: string;
   description?: string;
   language?: string;
+  technologies: string[];
   stars: number;
   url: string;
 };
@@ -93,7 +135,9 @@ export type SticksStats = {
 };
 
 const fallbackRepositoryEntries: Array<[string, string, number]> = [
-  ["GB4ME", "C++", 0],
+  ["NutriTrace", "PHP", 0],
+  ["GB4ME", "C++", 1],
+  ["portfolio", "TypeScript", 0],
   ["talentia-web", "TypeScript", 0],
   ["hardware_store", "Java", 0],
   ["accountia-web", "TypeScript", 1],
@@ -113,6 +157,7 @@ const fallbackRepositories: RepositorySummary[] = fallbackRepositoryEntries.map(
     name,
     description: repositoryDescriptions[name] ?? "",
     language,
+    technologies: getRepositoryTechnologies(name, language),
     stars,
     url: `https://github.com/${githubUsername}/${name}`,
   }),
@@ -299,8 +344,19 @@ export async function getGitHubSnapshot(): Promise<GitHubSnapshot> {
     .map((repository) => ({
       name: repository.name,
       description:
-        repositoryDescriptions[repository.name] ?? repository.description ?? "",
+        repositoryDescriptions[repository.name] ??
+        repositoryDescriptions[
+          Object.keys(repositoryDescriptions).find(
+            (key) => key.toLowerCase() === repository.name.toLowerCase(),
+          ) ?? ""
+        ] ??
+        repository.description ??
+        "",
       language: repository.language ?? "",
+      technologies: getRepositoryTechnologies(
+        repository.name,
+        repository.language ?? "",
+      ),
       stars: repository.stargazers_count,
       url: repository.html_url,
     }));
