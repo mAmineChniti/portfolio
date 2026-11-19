@@ -10,9 +10,16 @@ const excludedRepositoryNames = new Set([
   "workshop-react",
   "dotconfig",
   "Accountia",
+  "websem-api",
+  "websem-web",
+  "ESPRIT_5TWIN4_BioDev",
+  "HackFlow",
+  "portfolio",
 ]);
 
 const repositoryDescriptions: Record<string, string> = {
+  shakedown:
+    "A Go CLI that rehearses SQL migrations against disposable Docker or DSN databases across PostgreSQL, MySQL/MariaDB, SQLite, SQL Server, and Oracle, reporting lock exposure, table rewrites, data loss, row counts, and rollback drift.",
   NutriTrace:
     "A Laravel farm-to-plate food traceability platform following products from producer to consumer, with environmental footprint and certifications.",
   portfolio:
@@ -46,6 +53,15 @@ const repositoryDescriptions: Record<string, string> = {
 };
 
 const repositoryTechnologies: Record<string, string[]> = {
+  shakedown: [
+    "Go",
+    "Docker",
+    "PostgreSQL",
+    "MySQL",
+    "SQLite",
+    "SQL Server",
+    "Oracle",
+  ],
   NutriTrace: ["Laravel", "PHP", "MariaDB", "Tailwind CSS", "Alpine.js"],
   portfolio: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
   GB4ME: ["C++", "SDL", "Vulkan", "CMake"],
@@ -135,9 +151,9 @@ export type SticksStats = {
 };
 
 const fallbackRepositoryEntries: Array<[string, string, number]> = [
+  ["shakedown", "Go", 0],
   ["NutriTrace", "PHP", 0],
   ["GB4ME", "C++", 1],
-  ["portfolio", "TypeScript", 0],
   ["talentia-web", "TypeScript", 0],
   ["hardware_store", "Java", 0],
   ["accountia-web", "TypeScript", 1],
